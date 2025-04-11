@@ -1,0 +1,22 @@
+{
+    "name": "vitalpath-dev",
+    "image": "mcr.microsoft.com/devcontainers/python:3.11-node",
+    "features": {
+      "ghcr.io/devcontainers/features/azure-cli:1": {}
+    },
+    "postCreateCommand": "pip install fastapi uvicorn python-dotenv && npm install --prefix frontend",
+    "customizations": {
+      "vscode": {
+        "settings": {
+          "terminal.integrated.defaultProfile.linux": "bash"
+        },
+        "extensions": [
+          "ms-python.python",
+          "ms-azuretools.vscode-azurestaticwebapps",
+          "ms-azuretools.vscode-azurefunctions",
+          "ms-azuretools.vscode-azureresourcegroups"
+        ]
+      }
+    }
+  }
+  

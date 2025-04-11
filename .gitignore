@@ -1,0 +1,18 @@
+# Node modules
+**/node_modules/
+
+# Python
+**/__pycache__/
+*.pyc
+*.pyo
+
+# VSCode and system files
+.vscode/
+.DS_Store
+
+# Build artifacts
+*.zip
+.next/
+dist/
+out/
+.env
