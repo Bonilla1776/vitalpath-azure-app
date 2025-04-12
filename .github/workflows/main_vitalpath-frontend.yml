@@ -27,7 +27,8 @@ jobs:
         working-directory: frontend
         run: |
           npm run build
-          zip -r ../vitalpath-frontend.zip .next static public package.json next.config.js
+          zip -r vitalpath-frontend.zip .next static public package.json next.config.js
+          mv vitalpath-frontend.zip ..
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
