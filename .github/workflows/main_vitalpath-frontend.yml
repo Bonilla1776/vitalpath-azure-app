@@ -29,11 +29,16 @@ jobs:
           npm run build
           zip -r ../vitalpath-frontend.zip .next static public package.json next.config.js
 
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'vitalpath-frontend'
           slot-name: 'production'
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: vitalpath-frontend.zip
+
 
