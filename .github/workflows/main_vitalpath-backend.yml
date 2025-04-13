@@ -13,62 +13,52 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set working directory to backend
-        run: cd backend
-        shell: bash
-
-      - name: Set up Python version
+      - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Create and activate virtual environment
-        working-directory: ./backend  # 👈 ADD THIS
+      - name: Install dependencies
+        working-directory: backend
         run: |
           python -m venv venv
           source venv/bin/activate
+          pip install -r requirements.txt
 
-      - name: Install dependencies
-        working-directory: ./backend  # 👈 ADD THIS
-        run: pip install -r requirements.txt
+      - name: Package backend as ZIP
+        working-directory: backend
+        run: |
+          zip -r ../release.zip . -x "venv/*" "__pycache__/*" "*.pyc"
 
-      - name: Zip artifact for deployment
-        working-directory: ./backend  # 👈 ADD THIS
-        run: zip -r release.zip .
-
-      - name: Upload artifact for deployment jobs
+      - name: Upload backend artifact
         uses: actions/upload-artifact@v4
         with:
-          name: python-app
-          path: backend/release.zip  # 👈 FIXED PATH
+          name: backend-app
+          path: release.zip
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
     environment:
-      name: 'Production'
+      name: 'production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
+      - name: Download backend artifact
         uses: actions/download-artifact@v4
         with:
-          name: python-app
+          name: backend-app
 
-      - name: Unzip artifact for deployment
+      - name: Unzip artifact
         run: unzip release.zip
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
           app-name: 'vitalpath-backend'
-          slot-name: 'Production'
+          slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_088FFAFDF8314C51A103CCEAB6A77838 }}
-
