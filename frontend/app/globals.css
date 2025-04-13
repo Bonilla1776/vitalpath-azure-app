@@ -1,5 +1,18 @@
-/* globals.css */
-
+/* frontend/app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+}
+
+button {
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
