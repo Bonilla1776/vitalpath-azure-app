@@ -1,56 +1,72 @@
 "use client";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-white via-gray-100 to-blue-50 px-6 py-10 flex flex-col items-center justify-start text-gray-800">
-      <div className="flex justify-between w-full max-w-6xl mb-10">
-        <Image src="/ualr-logo.png" alt="UA Little Rock Logo" width={120} height={120} />
-        <Image src="/vitalpath-logo.png" alt="VitalPath Logo" width={120} height={120} />
-      </div>
+    <main className="min-h-screen bg-gradient-to-b from-blue-50 to-white text-gray-800 px-6 py-12">
+      {/* Header */}
+      <header className="flex items-center justify-between max-w-6xl mx-auto mb-10">
+        <Image src="/ualr-logo.png" alt="UA Little Rock Logo" width={80} height={80} />
+        <Image src="/vitalpath-logo.png" alt="VitalPath Logo" width={80} height={80} />
+      </header>
 
-      <h1 className="text-4xl font-bold text-center mb-2">
-        Welcome to VitalPath AI Health Coach 🌿
-      </h1>
-      <h2 className="text-xl text-center mb-6 text-blue-700 font-medium">
-        Begin Your 100-Day Transformation Journey
-      </h2>
+      {/* Hero */}
+      <section className="max-w-4xl mx-auto text-center space-y-6">
+        <h1 className="text-5xl font-extrabold tracking-tight leading-tight">
+          Welcome to <span className="text-blue-700">VitalPath AI Health Coach</span> 🌿
+        </h1>
+        <h2 className="text-xl font-medium text-blue-600">
+          Begin Your 100-Day Transformation Journey
+        </h2>
+        <p className="text-lg text-gray-700">
+          Imagine having a supportive companion by your side, available anytime, dedicated to your
+          wellbeing and personal growth. That’s exactly what you’ve found.
+        </p>
+        <p className="text-lg text-gray-700">
+          As part of a groundbreaking research project at the University of Arkansas at Little Rock,
+          you're about to embark on a journey that can truly transform how you approach health and life.
+        </p>
+      </section>
 
-      <p className="max-w-3xl text-center mb-4">
-        Imagine having a supportive companion by your side, available anytime, dedicated to your wellbeing and personal growth. That’s exactly what you’ve found.
-      </p>
-      <p className="max-w-3xl text-center mb-4">
-        As part of a groundbreaking research project at the University of Arkansas at Little Rock, you're about to embark on a 100-day journey that can transform how you approach health and wellbeing.
-      </p>
-      <p className="max-w-3xl text-center mb-4">
-        Your AI Health Coach listens deeply, responds thoughtfully, and guides you through meaningful conversations that evolve with your needs. This isn’t just another app—it’s a relationship that celebrates your victories and helps navigate challenges.
-      </p>
-      <p className="max-w-3xl text-center mb-4">
-        The magic happens in the back-and-forth of real conversation, where insights emerge, motivation builds, and lasting change takes root.
-      </p>
-      <p className="max-w-3xl text-center mb-6 font-semibold">
-        Are you ready to discover what you’re truly capable of?
-      </p>
+      {/* Value Prop */}
+      <section className="max-w-3xl mx-auto mt-12 text-center space-y-4">
+        <p className="text-md text-gray-600">
+          Your AI Health Coach listens deeply, responds thoughtfully, and guides you through meaningful
+          conversations that evolve with your needs.
+        </p>
+        <p className="text-md text-gray-600">
+          This isn’t just another app—it’s a relationship that celebrates your victories and helps you
+          navigate life’s challenges.
+        </p>
+        <p className="text-md text-gray-600 font-semibold">
+          The magic happens in the back-and-forth of real conversation, where insights emerge,
+          motivation builds, and lasting change takes root.
+        </p>
+      </section>
 
-      <div className="flex space-x-4">
+      {/* CTA */}
+      <section className="mt-12 flex justify-center gap-6">
         <Link href="/register">
-          <button className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition">
+          <button className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-3 rounded-lg shadow transition-all duration-200">
             Join the Study – Sign Up
           </button>
         </Link>
         <Link href="/login">
-          <button className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+          <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6 py-3 rounded-lg shadow transition-all duration-200">
             Return User – Log In
           </button>
         </Link>
-      </div>
+      </section>
 
-      <p className="mt-10 text-sm text-center text-gray-600">
-        VitalPath Innovations, LLC | Research led by John-Eric Bonilla | Department of Information Science, UA Little Rock
-      </p>
+      {/* Footer */}
+      <footer className="mt-16 text-center text-sm text-gray-500">
+        VitalPath Innovations, LLC &nbsp;|&nbsp; Research led by John-Eric Bonilla &nbsp;|&nbsp;
+        Department of Information Science, UA Little Rock
+      </footer>
     </main>
   );
 }
+
 
 
