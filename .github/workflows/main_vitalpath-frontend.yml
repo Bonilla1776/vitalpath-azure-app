@@ -29,18 +29,14 @@ jobs:
         working-directory: frontend
         run: npm run build
 
-      - name: Zip entire frontend directory
-        run: |
-          cd frontend
-          zip -r ../vitalpath-frontend.zip .
-
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'vitalpath-frontend'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_VITALPATH_FRONTEND }}
-          package: vitalpath-frontend.zip
+          package: frontend
+
 
 
 
