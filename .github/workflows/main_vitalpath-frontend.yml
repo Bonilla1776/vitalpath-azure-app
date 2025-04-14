@@ -25,9 +25,15 @@ jobs:
           npm ci
           npm install framer-motion
 
-      - name: Build Next.js frontend
+      - name: Build Next.js static app
         working-directory: frontend
-        run: npm run build
+        run: |
+          npm run build
+          npm run export
+
+      - name: Zip exported app
+        working-directory: frontend/out
+        run: zip -r ../../vitalpath-frontend.zip .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -35,7 +41,8 @@ jobs:
           app-name: 'vitalpath-frontend'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_VITALPATH_FRONTEND }}
-          package: frontend
+          package: vitalpath-frontend.zip
+
 
 
 
