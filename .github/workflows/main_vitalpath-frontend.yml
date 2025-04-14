@@ -27,13 +27,12 @@ jobs:
 
       - name: Build Next.js static app
         working-directory: frontend
-        run: |
-          npm run build
-          npm run export
+        run: npm run build
 
-      - name: Zip exported app
-        working-directory: frontend/out
-        run: zip -r ../../vitalpath-frontend.zip .
+      - name: Zip output folder
+        run: |
+          cd frontend/out
+          zip -r ../../vitalpath-frontend.zip .
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -42,6 +41,7 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_VITALPATH_FRONTEND }}
           package: vitalpath-frontend.zip
+
 
 
 
