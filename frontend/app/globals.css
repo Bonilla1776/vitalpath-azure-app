@@ -1,18 +1,70 @@
-/* frontend/app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  padding: 0;
-  margin: 0;
-  font-family: 'Inter', sans-serif;
+/* Global styles */
+html,
+body {
+  @apply min-h-screen bg-gradient-to-br from-white via-purple-50 to-purple-100 text-gray-800 font-sans antialiased;
 }
 
-button {
-  transition: background-color 0.3s, transform 0.2s;
+img {
+  @apply max-w-full h-auto;
 }
 
-button:hover {
-  transform: translateY(-1px);
+a {
+  @apply transition-colors duration-200;
 }
+
+/* Custom animations */
+@layer utilities {
+  .animate-fadeIn {
+    animation: fadeIn 0.8s ease-out both;
+  }
+
+  .animate-slideUp {
+    animation: slideUp 0.8s ease-out both;
+  }
+
+  .delay-100 {
+    animation-delay: 0.1s;
+  }
+
+  .delay-200 {
+    animation-delay: 0.2s;
+  }
+
+  .delay-300 {
+    animation-delay: 0.3s;
+  }
+
+  .delay-500 {
+    animation-delay: 0.5s;
+  }
+
+  .delay-700 {
+    animation-delay: 0.7s;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+
