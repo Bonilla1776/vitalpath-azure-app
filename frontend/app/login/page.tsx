@@ -1,42 +1,72 @@
-// app/login/page.tsx
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  FormControl,
+  FormLabel,
+  Heading,
+  Input,
+  Stack,
+  Text,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = async () => {
-    // TODO: Replace with actual login logic
-    console.log("Logging in:", { email, password });
-    router.push("/consent");
-  };
+  const bg = useColorModeValue('gray.50', 'gray.900');
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const textColor = useColorModeValue('gray.700', 'gray.200');
 
   return (
-    <div className="max-w-md mx-auto mt-10 space-y-4">
-      <h1 className="text-2xl font-bold">Login to VitalPath</h1>
-      <input
-        type="email"
-        className="w-full border p-2 rounded"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        className="w-full border p-2 rounded"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button
-        onClick={handleLogin}
-        className="w-full bg-green-600 text-white py-2 rounded"
+    <Flex
+      minH="100vh"
+      align="center"
+      justify="center"
+      bgGradient="linear(to-br, white, purple.100, pink.200)"
+      px={4}
+    >
+      <Container
+        maxW="md"
+        bg={cardBg}
+        boxShadow="2xl"
+        rounded="lg"
+        p={8}
+        mt={-24}
+        w="100%"
       >
-        Login
-      </button>
-    </div>
+        <Stack spacing={6}>
+          <Heading fontSize="3xl" textAlign="center" color="purple.600">
+            Login to <Text as="span" color="purple.800">VitalPath</Text>
+          </Heading>
+
+          <FormControl id="email" isRequired>
+            <FormLabel color={textColor}>Email</FormLabel>
+            <Input type="email" placeholder="you@example.com" />
+          </FormControl>
+
+          <FormControl id="password" isRequired>
+            <FormLabel color={textColor}>Password</FormLabel>
+            <Input type="password" placeholder="••••••••" />
+          </FormControl>
+
+          <Button
+            colorScheme="purple"
+            size="lg"
+            mt={4}
+            w="100%"
+            _hover={{ transform: 'scale(1.02)', boxShadow: 'md' }}
+          >
+            Log In
+          </Button>
+
+          <Text fontSize="sm" color="gray.500" textAlign="center">
+            Forgot your password? Contact your study coordinator.
+          </Text>
+        </Stack>
+      </Container>
+    </Flex>
   );
 }
+

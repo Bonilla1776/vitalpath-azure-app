@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  distDir: 'out', // <-- this is critical
   trailingSlash: true,
+  images: {
+    unoptimized: true, // ← THIS FIXES IT
+  },
 };
 
 module.exports = nextConfig;
