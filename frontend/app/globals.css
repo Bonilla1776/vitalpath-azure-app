@@ -2,26 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Global styles */
-html,
+/* Global enhancements */
 body {
-  @apply min-h-screen bg-gradient-to-br from-white via-purple-50 to-purple-100 text-gray-800 font-sans antialiased;
+  @apply bg-gradient-to-br from-white via-purple-50 to-purple-100 text-gray-800 font-sans antialiased;
 }
 
-img {
-  @apply max-w-full h-auto;
-}
-
-a {
-  @apply transition-colors duration-200;
-}
-
-/* Custom animations */
 @layer utilities {
+  /* Fade In Animation */
   .animate-fadeIn {
     animation: fadeIn 0.8s ease-out both;
   }
 
+  /* Slide Up Animation */
   .animate-slideUp {
     animation: slideUp 0.8s ease-out both;
   }
@@ -29,19 +21,15 @@ a {
   .delay-100 {
     animation-delay: 0.1s;
   }
-
   .delay-200 {
     animation-delay: 0.2s;
   }
-
   .delay-300 {
     animation-delay: 0.3s;
   }
-
   .delay-500 {
     animation-delay: 0.5s;
   }
-
   .delay-700 {
     animation-delay: 0.7s;
   }
@@ -49,16 +37,18 @@ a {
   @keyframes fadeIn {
     from {
       opacity: 0;
+      transform: translateY(10px);
     }
     to {
       opacity: 1;
+      transform: translateY(0);
     }
   }
 
   @keyframes slideUp {
     from {
       opacity: 0;
-      transform: translateY(20px);
+      transform: translateY(25px);
     }
     to {
       opacity: 1;
