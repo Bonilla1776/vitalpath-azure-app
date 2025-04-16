@@ -43,12 +43,12 @@ export default function LoginPage() {
 
           <FormControl id="email" isRequired>
             <FormLabel color={textColor}>Email</FormLabel>
-            <Input type="email" placeholder="you@example.com" />
+            <Input type="email" placeholder="you@example.com" focusBorderColor="purple.400" />
           </FormControl>
 
           <FormControl id="password" isRequired>
             <FormLabel color={textColor}>Password</FormLabel>
-            <Input type="password" placeholder="••••••••" />
+            <Input type="password" placeholder="••••••••" focusBorderColor="purple.400" />
           </FormControl>
 
           <Button
@@ -69,4 +69,5 @@ export default function LoginPage() {
     </Flex>
   );
 }
+
 

@@ -1,109 +1,169 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
-import axios from "axios";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { isValidMotionProp, motion } from 'framer-motion';
+import { chakra, shouldForwardProp } from '@chakra-ui/system';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Heading,
+  Stack,
+  Text,
+  useColorModeValue,
+  useToast,
+  List,
+  ListItem,
+} from '@chakra-ui/react';
+import axios from 'axios';
+
+const MotionBox = chakra(motion.div, {
+  shouldForwardProp: (prop) =>
+    isValidMotionProp(prop) || shouldForwardProp(prop),
+});
 
 export default function ConsentPage() {
   const router = useRouter();
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const toast = useToast();
 
   const handleSubmit = async () => {
     if (!agreed) {
-      setError("You must agree to participate to proceed.");
+      toast({
+        title: 'Consent Required',
+        description: 'You must agree to participate to continue.',
+        status: 'warning',
+        duration: 4000,
+        isClosable: true,
+      });
       return;
     }
 
     try {
       setLoading(true);
-      await axios.post("/api/consent", { consented: true, version: "v1.0" });
-      router.push("/discovery");
-    } catch (err) {
-      setError("An error occurred. Please try again.");
+      await axios.post('/api/consent', {
+        consented: true,
+        version: 'v1.0',
+      });
+      router.push('/discovery');
+    } catch (error) {
+      toast({
+        title: 'Submission failed',
+        description: 'Please try again.',
+        status: 'error',
+        duration: 5000,
+        isClosable: true,
+      });
     } finally {
       setLoading(false);
     }
   };
 
+  const bgGradient = useColorModeValue(
+    'linear(to-br, blue.50, green.100)',
+    'linear(to-br, gray.800, green.700)'
+  );
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
+    <Box
+      minH="100vh"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
+      px={4}
+      py={10}
+      bgGradient={bgGradient}
+    >
+      <MotionBox
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white shadow-xl rounded-2xl max-w-4xl w-full p-6 overflow-hidden"
+        transition={{ duration: 0.6 } as any}
+        maxW="4xl"
+        w="full"
+        bg={useColorModeValue('white', 'gray.800')}
+        boxShadow="xl"
+        borderRadius="2xl"
+        p={8}
       >
-        <div className="mb-6">
-          <p className="text-sm text-gray-500 font-medium">Step 2 of 3</p>
-          <h1 className="text-2xl font-bold text-gray-800 mt-1">
+        <Stack spacing={4} mb={6}>
+          <Text fontSize="sm" color="gray.500" fontWeight="medium">
+            Step 2 of 3
+          </Text>
+          <Heading fontSize="2xl" color={useColorModeValue('gray.800', 'gray.100')}>
             Informed Consent Form
-          </h1>
-          <p className="text-gray-600 text-sm">
+          </Heading>
+          <Text fontSize="sm" color="gray.600">
             Please read carefully before proceeding.
-          </p>
-        </div>
+          </Text>
+        </Stack>
 
-        <div className="h-[400px] overflow-y-auto border border-gray-200 rounded-lg p-4 bg-gray-50 text-sm text-gray-800 space-y-3">
-          <p><strong>Title of Study:</strong> AI-Driven Motivational Interviewing...</p>
-          <p><strong>Introduction:</strong> You are invited to participate in...</p>
-          <p><strong>Key Information:</strong></p>
-          <ul className="list-disc list-inside ml-4">
-            <li>Purpose: To develop and evaluate...</li>
-            <li>Eligibility: You must be 18 or older...</li>
-            <li>What You Will Do: Provide demographics, setup coach, interact weekly...</li>
-            <li>Risks: Minimal...</li>
-            <li>Benefits: Improved health behaviors, advancing digital health research...</li>
-          </ul>
-          <p><strong>Study Details:</strong> This research explores...</p>
-          <p><strong>Procedures:</strong></p>
-          <ol className="list-decimal list-inside ml-4">
-            <li>Initial Setup (20–30 minutes)</li>
-            <li>Weekly AI coach interactions</li>
-            <li>Optional surveys & interviews</li>
-          </ol>
-          <p><strong>Risks and Discomforts:</strong> Minimal, primarily confidentiality...</p>
-          <p><strong>Potential Benefits:</strong> Personal & societal benefits...</p>
-          <p><strong>Confidentiality and Data Security:</strong></p>
-          <ul className="list-disc list-inside ml-4">
-            <li>Secure encrypted storage, limited access...</li>
-            <li>3-year minimum data retention...</li>
-            <li>Email not fully secure — use caution.</li>
-          </ul>
-          <p><strong>Your Rights:</strong> You may ask questions, stop at any time...</p>
-          <p><strong>IRB & Contacts:</strong></p>
-          <ul className="list-inside ml-4">
-            <li>John-Eric Bonilla, jbonilla@ualr.edu</li>
-            <li>Prof. Xiaowei Xu, xwxu@ualr.edu</li>
-            <li>IRB: 501-916-6209, irb@ualr.edu</li>
-          </ul>
-        </div>
-
-        <div className="mt-4 flex items-start space-x-2">
-          <input
-            id="agree"
-            type="checkbox"
-            checked={agreed}
-            onChange={(e) => setAgreed(e.target.checked)}
-            className="mt-1"
-          />
-          <label htmlFor="agree" className="text-sm text-gray-700">
-            I am at least 18 years old and I agree to participate in this study.
-          </label>
-        </div>
-
-        {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
-
-        <button
-          onClick={handleSubmit}
-          disabled={!agreed || loading}
-          className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition-all duration-200 disabled:opacity-50"
+        <Box
+          h="400px"
+          overflowY="auto"
+          border="1px"
+          borderColor="gray.200"
+          bg={useColorModeValue('gray.50', 'gray.700')}
+          borderRadius="lg"
+          p={4}
+          fontSize="sm"
+          color={useColorModeValue('gray.800', 'gray.100')}
         >
-          {loading ? "Processing..." : "I Agree → Continue to Discovery"}
-        </button>
-      </motion.div>
-    </div>
+          <Stack spacing={3}>
+            <Text><strong>Title of Study:</strong> AI-Driven Motivational Interviewing...</Text>
+            <Text><strong>Introduction:</strong> You are invited to participate in an IRB-approved research study exploring AI-supported health coaching using conversational interviews.</Text>
+            <Text><strong>Key Information:</strong></Text>
+            <List spacing={2} pl={4} styleType="disc">
+              <ListItem>Purpose: To develop and evaluate an AI-powered coaching system.</ListItem>
+              <ListItem>Eligibility: You must be 18 or older.</ListItem>
+              <ListItem>What You Will Do: Complete onboarding, interact with AI weekly, and optionally complete surveys.</ListItem>
+              <ListItem>Risks: Minimal; data confidentiality is a priority.</ListItem>
+              <ListItem>Benefits: Possible improved self-awareness and behavioral outcomes.</ListItem>
+            </List>
+            <Text><strong>Study Details:</strong> This research explores digital tools to support long-term health behavior change.</Text>
+            <Text><strong>Procedures:</strong></Text>
+            <List spacing={2} pl={4} styleType="decimal">
+              <ListItem>Initial setup including a discovery questionnaire.</ListItem>
+              <ListItem>Weekly 5–30 minute interactions with your AI coach.</ListItem>
+              <ListItem>Optional surveys or interviews at designated points.</ListItem>
+            </List>
+            <Text><strong>Confidentiality & Data Security:</strong></Text>
+            <List spacing={2} pl={4} styleType="disc">
+              <ListItem>Data is stored on secure servers with encryption and access controls.</ListItem>
+              <ListItem>All data will be retained for a minimum of 3 years.</ListItem>
+              <ListItem>Email communications may not be encrypted; avoid sending sensitive information via email.</ListItem>
+            </List>
+            <Text><strong>Your Rights:</strong> Participation is voluntary. You can withdraw at any time without consequence. Questions? Reach out:</Text>
+            <Box pl={4}>
+              <Text>John-Eric Bonilla, jbonilla@ualr.edu</Text>
+              <Text>Prof. Xiaowei Xu, xwxu@ualr.edu</Text>
+              <Text>IRB: 501-916-6209, irb@ualr.edu</Text>
+            </Box>
+          </Stack>
+        </Box>
+
+        <Checkbox
+          mt={6}
+          isChecked={agreed}
+          onChange={(e) => setAgreed(e.target.checked)}
+          colorScheme="green"
+        >
+          I am at least 18 years old and I agree to participate in this study.
+        </Checkbox>
+
+        <Button
+          mt={6}
+          colorScheme="green"
+          w="full"
+          onClick={handleSubmit}
+          isLoading={loading}
+          isDisabled={!agreed}
+          rounded="lg"
+        >
+          I Agree → Continue to Discovery
+        </Button>
+      </MotionBox>
+    </Box>
   );
 }
-

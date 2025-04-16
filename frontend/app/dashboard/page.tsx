@@ -1,32 +1,71 @@
-// app/dashboard/page.tsx
-"use client";
+'use client';
 
-import { useRouter } from "next/navigation";
+import { useRouter } from 'next/navigation';
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Text,
+  useColorModeValue,
+  SimpleGrid,
+  VStack,
+} from '@chakra-ui/react';
+
+const metrics = [
+  { name: 'Energy', color: 'yellow.400' },
+  { name: 'Sleep Quality', color: 'blue.400' },
+  { name: 'Stress', color: 'red.400' },
+];
 
 export default function DashboardPage() {
   const router = useRouter();
+  const headingColor = useColorModeValue('purple.700', 'purple.300');
+  const cardBg = useColorModeValue('white', 'gray.700');
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-4">
-      <h1 className="text-3xl font-bold">Welcome to Your Dashboard</h1>
-      <p className="text-gray-600">Track your progress and connect with your AI Health Coach.</p>
+    <Box minH="100vh" py={16} px={6} bgGradient="linear(to-br, purple.50, white)">
+      <VStack spacing={8} align="start" maxW="5xl" mx="auto">
+        <Heading size="2xl" color={headingColor}>
+          Welcome to Your Dashboard
+        </Heading>
+        <Text fontSize="lg" color="gray.600">
+          Track your progress and connect with your AI Health Coach.
+        </Text>
 
-      <div className="flex flex-wrap gap-4">
-        {/* Example metric cards */}
-        {["Energy", "Sleep Quality", "Stress"].map((metric) => (
-          <div key={metric} className="bg-white shadow p-4 rounded w-48">
-            <h3 className="text-lg font-medium">{metric}</h3>
-            <p className="text-2xl font-bold text-blue-600">--</p>
-          </div>
-        ))}
-      </div>
+        <SimpleGrid columns={{ base: 1, md: 3 }} spacing={6} w="full">
+          {metrics.map((metric) => (
+            <Box
+              key={metric.name}
+              bg={cardBg}
+              p={6}
+              rounded="xl"
+              boxShadow="lg"
+              textAlign="center"
+            >
+              <Text fontSize="xl" fontWeight="semibold">
+                {metric.name}
+              </Text>
+              <Text fontSize="3xl" fontWeight="bold" color={metric.color}>
+                --
+              </Text>
+            </Box>
+          ))}
+        </SimpleGrid>
 
-      <button
-        onClick={() => router.push("/coach")}
-        className="mt-6 bg-green-600 text-white px-8 py-3 rounded"
-      >
-        Start AI Coaching Session
-      </button>
-    </div>
+        <Button
+          mt={10}
+          size="lg"
+          colorScheme="green"
+          px={10}
+          py={6}
+          rounded="full"
+          onClick={() => router.push('/coach')}
+        >
+          Start AI Coaching Session
+        </Button>
+      </VStack>
+    </Box>
   );
 }
+
