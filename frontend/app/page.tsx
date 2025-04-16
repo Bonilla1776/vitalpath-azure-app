@@ -10,27 +10,34 @@ import {
   Stack,
   Text,
   useColorModeValue,
-  useBreakpointValue,
   VStack,
-  Highlight,
   Badge,
   Divider,
 } from '@chakra-ui/react';
+import { chakra, shouldForwardProp } from '@chakra-ui/system';
+import { isValidMotionProp, motion } from 'framer-motion';
+
+const MotionBox = chakra(motion.div, {
+  shouldForwardProp: (prop) =>
+    isValidMotionProp(prop) || shouldForwardProp(prop),
+});
 
 export default function Home() {
-  const headingColor = useColorModeValue('purple.600', 'purple.300');
-  const subtextColor = useColorModeValue('gray.600', 'gray.300');
-  const cardBg = useColorModeValue('white', 'gray.900');
-  const gradientBg = useColorModeValue(
-    'linear(to-br, white, pink.100, fuchsia.200)',
-    'linear(to-br, gray.800, pink.300, purple.600)'
+  const headingColor = useColorModeValue('purple.700', 'purple.300');
+  const subtextColor = useColorModeValue('gray.700', 'gray.300');
+  const highlightColor = useColorModeValue('purple.50', 'purple.900');
+  const cardBg = useColorModeValue('white', 'gray.800');
+  const accentColor = useColorModeValue('green.500', 'green.300');
+
+  const bgGradient = useColorModeValue(
+    'linear(to-br, white, purple.50, purple.100)',
+    'linear(to-br, gray.900, purple.900, purple.700)'
   );
-  const buttonSize = useBreakpointValue({ base: 'md', md: 'lg' });
 
   return (
     <Box
       minH="100vh"
-      bgGradient={gradientBg}
+      bgGradient={bgGradient}
       display="flex"
       alignItems="center"
       justifyContent="center"
@@ -43,109 +50,122 @@ export default function Home() {
         maxW="4xl"
         w="full"
         bg={cardBg}
-        boxShadow="xl"
+        boxShadow="2xl"
         borderRadius="2xl"
         px={{ base: 6, md: 12 }}
         py={{ base: 10, md: 16 }}
         position="relative"
       >
-        {/* Top badge */}
-        <Badge
-          colorScheme="green"
-          fontSize="sm"
-          px={3}
-          py={1}
-          borderRadius="full"
+        <Box
           position="absolute"
-          top="-2"
-          left="50%"
-          transform="translateX(-50%)"
-        >
-          Official PhD Research Study
-        </Badge>
+          top={0}
+          left={0}
+          right={0}
+          h="4px"
+          bgGradient={`linear(to-r, ${accentColor}, purple.500)`}
+        />
 
-        {/* Logos */}
-        <Flex justify="center" gap={6} mb={4} wrap="wrap">
-          <Image src="/ualr-logo.png" alt="UA Little Rock Logo" width={100} height={100} />
-          <Image src="/vitalpath-logo.png" alt="VitalPath Logo" width={100} height={100} />
+        <Flex justify="center" gap={10} mb={2} wrap="wrap">
+          <Image
+            src="/ualr-logo.png"
+            alt="UA Little Rock Logo"
+            width={120}
+            height={120}
+            style={{ objectFit: 'contain' }}
+          />
+          <Image
+            src="/vitalpath-logo.png"
+            alt="VitalPath Logo"
+            width={120}
+            height={120}
+            style={{ objectFit: 'contain' }}
+          />
         </Flex>
 
-        {/* Headline */}
-        <Heading as="h1" size="2xl" fontWeight="bold">
-          Welcome to <Text as="span" color={headingColor}>VitalPath</Text> 🌿
-        </Heading>
-
-        {/* Subheading */}
-        <Text fontSize="xl" color={subtextColor} fontWeight="semibold">
-          <Highlight
-            query="100-Day Transformation Journey"
-            styles={{ px: '2', py: '1', rounded: 'full', bg: 'purple.100' }}
+        <Box>
+          <Badge
+            colorScheme="green"
+            fontSize="sm"
+            px={3}
+            py={1}
+            borderRadius="full"
+            mb={3}
           >
-            Begin Your 100-Day Transformation Journey
-          </Highlight>
+            PhD Research Study
+          </Badge>
+
+          <Heading as="h1" size="2xl" fontWeight="extrabold">
+            Welcome to{' '}
+            <Text as="span" color={headingColor}>
+              VitalPath
+            </Text>{' '}
+            🌿
+          </Heading>
+        </Box>
+
+        <Text fontSize="xl" fontWeight="semibold" color={subtextColor}>
+          Begin Your 100-Day Transformation Journey
         </Text>
 
-        {/* Value Proposition */}
-        <Stack spacing={5} fontSize={{ base: 'md', md: 'lg' }} color={subtextColor}>
+        <Stack spacing={6} fontSize={{ base: 'md', md: 'lg' }} color={subtextColor}>
           <Text>
-            Your personal AI Health Coach is ready to listen deeply, spark inspiration, and provide unwavering support as you create lasting well-being.
+            Your personal AI Health Coach is ready to listen deeply, spark inspiration, and provide unwavering support as you create lasting well-being. This isn't just another app — it's your personal breakthrough companion.
           </Text>
+
           <Text>
-            This isn't just another app — it's your breakthrough companion. Our technology uses AI-powered motivational techniques to reflect your values, help you clarify goals, and build momentum step by step.
+            VitalPath uses advanced AI to ask the right questions at the right time, reflecting your own wisdom back to you and gently guiding you past obstacles toward the changes that matter most to you.
           </Text>
+
           <Text fontWeight="medium" color={headingColor}>
-            This is more than a study — it’s your opportunity to discover what becomes possible when technology truly understands and supports your unique path to wellness.
+            This is more than a study—it's your opportunity to discover what becomes possible when technology truly understands and responds to your unique path to wellness.
           </Text>
         </Stack>
 
-        <Divider my={4} />
+        <Divider />
 
-        {/* Spot availability prompt */}
         <Box
-          bg={useColorModeValue('green.50', 'green.900')}
+          bg={highlightColor}
           px={6}
           py={4}
-          borderRadius="lg"
-          borderWidth="1px"
-          borderColor={useColorModeValue('green.200', 'green.600')}
+          borderRadius="xl"
+          mx="auto"
+          w="full"
+          maxW="xl"
         >
-          <Text fontSize="md" fontWeight="medium" color="green.600">
-            ⏳ Only 100 participant spots available. Join now and shape the future of AI health coaching.
+          <Text fontSize="md" fontWeight="medium" color={headingColor}>
+            Participation is free and limited to 100 individuals. Join now to secure your spot!
           </Text>
         </Box>
 
-        {/* Call-to-action buttons */}
-        <Flex gap={4} flexWrap="wrap" justify="center" pt={4}>
+        <Flex gap={6} flexWrap="wrap" justify="center" pt={5}>
           <Button
             as={NextLink}
             href="/register"
-            size={buttonSize}
             colorScheme="purple"
+            size="lg"
             px={8}
             py={6}
             rounded="full"
             fontWeight="bold"
-            _hover={{ transform: 'scale(1.05)', boxShadow: 'lg' }}
           >
-            💡 Join the Study → Sign Up
+            Join the Study
           </Button>
+
           <Button
             as={NextLink}
             href="/login"
-            size={buttonSize}
             variant="outline"
             colorScheme="purple"
+            size="lg"
             px={8}
             py={6}
             rounded="full"
             fontWeight="bold"
-            _hover={{ transform: 'scale(1.05)', boxShadow: 'lg' }}
           >
-            🔑 Return User → Log In
+            Return User Login
           </Button>
         </Flex>
 
-        {/* Footer */}
         <Text fontSize="sm" pt={6} color="gray.500">
           VitalPath Innovations, LLC • Research led by John-Eric Bonilla • UA Little Rock
         </Text>
@@ -153,3 +173,4 @@ export default function Home() {
     </Box>
   );
 }
+
