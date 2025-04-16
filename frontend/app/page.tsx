@@ -5,19 +5,23 @@ import NextLink from 'next/link';
 import {
   Box,
   Button,
-  Container,
   Flex,
   Heading,
   Stack,
   Text,
   useColorModeValue,
   useBreakpointValue,
+  VStack,
+  Highlight,
+  Badge,
+  Divider,
 } from '@chakra-ui/react';
 
 export default function Home() {
   const headingColor = useColorModeValue('purple.600', 'purple.300');
-  const textColor = useColorModeValue('gray.700', 'gray.300');
-  const bgGradient = useColorModeValue(
+  const subtextColor = useColorModeValue('gray.600', 'gray.300');
+  const cardBg = useColorModeValue('white', 'gray.900');
+  const gradientBg = useColorModeValue(
     'linear(to-br, white, pink.100, fuchsia.200)',
     'linear(to-br, gray.800, pink.300, purple.600)'
   );
@@ -26,107 +30,126 @@ export default function Home() {
   return (
     <Box
       minH="100vh"
-      bgGradient={bgGradient}
-      color="gray.800"
-      fontFamily="'Segoe UI', sans-serif"
+      bgGradient={gradientBg}
       display="flex"
-      flexDirection="column"
       alignItems="center"
       justifyContent="center"
       px={{ base: 4, md: 10 }}
-      py={10}
+      py={{ base: 12, md: 20 }}
     >
-      <Flex direction={{ base: 'column', md: 'row' }} gap={6} align="center" mb={8}>
-        <Image
-          src="/ualr-logo.png"
-          alt="UA Little Rock Logo"
-          width={120}
-          height={120}
-          className="rounded-md shadow-lg"
-        />
-        <Image
-          src="/vitalpath-logo.png"
-          alt="VitalPath Logo"
-          width={120}
-          height={120}
-          className="rounded-md shadow-lg"
-        />
-      </Flex>
+      <VStack
+        spacing={8}
+        textAlign="center"
+        maxW="4xl"
+        w="full"
+        bg={cardBg}
+        boxShadow="xl"
+        borderRadius="2xl"
+        px={{ base: 6, md: 12 }}
+        py={{ base: 10, md: 16 }}
+        position="relative"
+      >
+        {/* Top badge */}
+        <Badge
+          colorScheme="green"
+          fontSize="sm"
+          px={3}
+          py={1}
+          borderRadius="full"
+          position="absolute"
+          top="-2"
+          left="50%"
+          transform="translateX(-50%)"
+        >
+          Official PhD Research Study
+        </Badge>
 
-      <Heading as="h1" size="2xl" textAlign="center" mb={4}>
-        Welcome to{' '}
-        <Text as="span" color={headingColor} display="inline-block">
-          VitalPath
-        </Text>{' '}
-        🌿
-      </Heading>
+        {/* Logos */}
+        <Flex justify="center" gap={6} mb={4} wrap="wrap">
+          <Image src="/ualr-logo.png" alt="UA Little Rock Logo" width={100} height={100} />
+          <Image src="/vitalpath-logo.png" alt="VitalPath Logo" width={100} height={100} />
+        </Flex>
 
-      <Heading as="h2" size="lg" textAlign="center" mb={6} color={textColor}>
-        Begin Your 100-Day AI Coaching Journey
-      </Heading>
+        {/* Headline */}
+        <Heading as="h1" size="2xl" fontWeight="bold">
+          Welcome to <Text as="span" color={headingColor}>VitalPath</Text> 🌿
+        </Heading>
 
-      <Container maxW="3xl" textAlign="center" color={textColor} mb={8}>
-        <Stack spacing={4} fontSize={{ base: 'md', md: 'lg' }}>
+        {/* Subheading */}
+        <Text fontSize="xl" color={subtextColor} fontWeight="semibold">
+          <Highlight
+            query="100-Day Transformation Journey"
+            styles={{ px: '2', py: '1', rounded: 'full', bg: 'purple.100' }}
+          >
+            Begin Your 100-Day Transformation Journey
+          </Highlight>
+        </Text>
+
+        {/* Value Proposition */}
+        <Stack spacing={5} fontSize={{ base: 'md', md: 'lg' }} color={subtextColor}>
           <Text>
-            Your personal AI Health Coach is here to listen, inspire, and support you in achieving
-            sustainable well-being. This is more than an app — it’s a relationship.
+            Your personal AI Health Coach is ready to listen deeply, spark inspiration, and provide unwavering support as you create lasting well-being.
           </Text>
           <Text>
-            Through thoughtful conversation powered by cutting-edge motivational interviewing, you'll
-            unlock deeper purpose, overcome roadblocks, and celebrate progress.
+            This isn't just another app — it's your breakthrough companion. Our technology uses AI-powered motivational techniques to reflect your values, help you clarify goals, and build momentum step by step.
           </Text>
-          <Text fontSize="lg" fontWeight="medium" color="gray.900">
-            Ready to explore what’s possible when technology truly cares?
+          <Text fontWeight="medium" color={headingColor}>
+            This is more than a study — it’s your opportunity to discover what becomes possible when technology truly understands and supports your unique path to wellness.
           </Text>
         </Stack>
-      </Container>
 
-      <Flex mt={8} gap={4} wrap="wrap" justify="center">
-        <Button
-          as={NextLink}
-          href="/register"
-          colorScheme="purple"
-          px={8}
-          py={6}
-          size={buttonSize}
-          rounded="full"
-          fontWeight="semibold"
-          transition="all 0.3s"
-          _hover={{ transform: 'scale(1.05)', boxShadow: 'lg' }}
+        <Divider my={4} />
+
+        {/* Spot availability prompt */}
+        <Box
+          bg={useColorModeValue('green.50', 'green.900')}
+          px={6}
+          py={4}
+          borderRadius="lg"
+          borderWidth="1px"
+          borderColor={useColorModeValue('green.200', 'green.600')}
         >
-          Join the Study → Sign Up
-        </Button>
+          <Text fontSize="md" fontWeight="medium" color="green.600">
+            ⏳ Only 100 participant spots available. Join now and shape the future of AI health coaching.
+          </Text>
+        </Box>
 
-        <Button
-          as={NextLink}
-          href="/login"
-          variant="outline"
-          colorScheme="purple"
-          px={8}
-          py={6}
-          size={buttonSize}
-          rounded="full"
-          fontWeight="semibold"
-          transition="all 0.3s"
-          _hover={{ transform: 'scale(1.05)', boxShadow: 'lg' }}
-        >
-          Return User → Log In
-        </Button>
-      </Flex>
+        {/* Call-to-action buttons */}
+        <Flex gap={4} flexWrap="wrap" justify="center" pt={4}>
+          <Button
+            as={NextLink}
+            href="/register"
+            size={buttonSize}
+            colorScheme="purple"
+            px={8}
+            py={6}
+            rounded="full"
+            fontWeight="bold"
+            _hover={{ transform: 'scale(1.05)', boxShadow: 'lg' }}
+          >
+            💡 Join the Study → Sign Up
+          </Button>
+          <Button
+            as={NextLink}
+            href="/login"
+            size={buttonSize}
+            variant="outline"
+            colorScheme="purple"
+            px={8}
+            py={6}
+            rounded="full"
+            fontWeight="bold"
+            _hover={{ transform: 'scale(1.05)', boxShadow: 'lg' }}
+          >
+            🔑 Return User → Log In
+          </Button>
+        </Flex>
 
-      <Box mt={12} borderTopWidth="1px" pt={4}>
-        <Text fontSize="sm" textAlign="center" color="gray.500">
+        {/* Footer */}
+        <Text fontSize="sm" pt={6} color="gray.500">
           VitalPath Innovations, LLC • Research led by John-Eric Bonilla • UA Little Rock
         </Text>
-      </Box>
+      </VStack>
     </Box>
   );
 }
-
-
-
-
-
-
-
-
