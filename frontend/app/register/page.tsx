@@ -6,18 +6,14 @@ import {
   Button,
   Divider,
   Heading,
-  Input,
   Stack,
   Text,
   VStack,
   useColorModeValue,
-  FormControl,
-  FormLabel,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import NextLink from 'next/link';
-import { useState } from 'react';
 
 const MotionHeading = motion(Heading);
 const MotionText = motion(Text);
@@ -26,11 +22,7 @@ export default function RegisterPage() {
   const cardBg = useColorModeValue('rgba(255,255,255,0.6)', 'rgba(26,32,44,0.6)');
   const headingColor = useColorModeValue('purple.700', 'purple.300');
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleRegister = async () => {
-    // Custom email/password logic can go here
+  const handleAzureRegister = () => {
     signIn('azure-ad-b2c', { callbackUrl: '/' });
   };
 
@@ -67,34 +59,14 @@ export default function RegisterPage() {
             Begin your 100-day wellness journey
           </MotionText>
 
-          <Stack spacing={4} w="full">
-            <FormControl isRequired>
-              <FormLabel>Email</FormLabel>
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-              />
-            </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Password</FormLabel>
-              <Input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-              />
-            </FormControl>
-            <Button
-              colorScheme="purple"
-              size="lg"
-              w="full"
-              onClick={handleRegister}
-            >
-              Register
-            </Button>
-          </Stack>
+          <Button
+            colorScheme="purple"
+            size="lg"
+            w="full"
+            onClick={handleAzureRegister}
+          >
+            Register with Email
+          </Button>
 
           <Divider />
 
@@ -119,6 +91,7 @@ export default function RegisterPage() {
     </Box>
   );
 }
+
 
 
 
