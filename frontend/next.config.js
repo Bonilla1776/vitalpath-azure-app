@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  trailingSlash: true, // required for static hosting on Azure
+  trailingSlash: true,
 };
 
 module.exports = nextConfig;

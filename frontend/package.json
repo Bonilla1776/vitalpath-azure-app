@@ -2,13 +2,12 @@
   "name": "vitalpath-frontend",
   "version": "1.0.0",
   "private": true,
+
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "export": "next export",
-    "start": "next start",
-    "lint": "next lint",
-    "prepare": "npm run build && npm run export"
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.7.1",
