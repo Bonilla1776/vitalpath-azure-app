@@ -23,13 +23,13 @@ jobs:
         working-directory: frontend
         run: |
           npm ci
-          npm install framer-motion
 
-      - name: Build Next.js static app
+      - name: Build and Export Next.js Static Site
         working-directory: frontend
-        run: npm run build
+        run: |
+          npm run build
 
-      - name: Zip output folder
+      - name: Zip exported static site
         run: |
           cd frontend/out
           zip -r ../../vitalpath-frontend.zip .
@@ -41,6 +41,7 @@ jobs:
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_VITALPATH_FRONTEND }}
           package: vitalpath-frontend.zip
+
 
 
 
