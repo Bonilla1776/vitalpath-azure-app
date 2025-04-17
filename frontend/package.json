@@ -7,7 +7,8 @@
     "build": "next build",
     "export": "next export",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prepare": "npm run build && npm run export"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.7.1",
@@ -35,3 +36,4 @@
     "node": ">=18.0.0"
   }
 }
+
