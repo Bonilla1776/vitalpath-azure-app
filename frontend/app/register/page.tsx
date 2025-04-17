@@ -15,13 +15,21 @@ import {
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import NextLink from 'next/link';
+import { useState } from 'react';
 
 const MotionHeading = motion(Heading);
 const MotionText = motion(Text);
 
 export default function RegisterPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
   const cardBg = useColorModeValue('rgba(255,255,255,0.6)', 'rgba(26,32,44,0.6)');
   const headingColor = useColorModeValue('purple.700', 'purple.300');
+
+  const handleRegister = () => {
+    signIn('azure-ad-b2c', { callbackUrl: '/' });
+  };
 
   return (
     <Box position="relative" minH="100vh" overflow="hidden">
@@ -53,11 +61,22 @@ export default function RegisterPage() {
           </MotionText>
 
           <Stack spacing={4} w="full">
+            <Input
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <Input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
             <Button
               colorScheme="purple"
               size="lg"
               w="full"
-              onClick={() => signIn('azure-ad-b2c')}
+              onClick={handleRegister}
             >
               Register
             </Button>
