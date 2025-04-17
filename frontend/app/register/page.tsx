@@ -11,6 +11,8 @@ import {
   Text,
   VStack,
   useColorModeValue,
+  FormControl,
+  FormLabel,
 } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -21,14 +23,19 @@ const MotionHeading = motion(Heading);
 const MotionText = motion(Text);
 
 export default function RegisterPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
   const cardBg = useColorModeValue('rgba(255,255,255,0.6)', 'rgba(26,32,44,0.6)');
   const headingColor = useColorModeValue('purple.700', 'purple.300');
 
-  const handleRegister = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleRegister = async () => {
+    // Custom email/password logic can go here
     signIn('azure-ad-b2c', { callbackUrl: '/' });
+  };
+
+  const handleOAuth = (provider: string) => {
+    signIn(provider, { callbackUrl: '/' });
   };
 
   return (
@@ -61,17 +68,24 @@ export default function RegisterPage() {
           </MotionText>
 
           <Stack spacing={4} w="full">
-            <Input
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+              />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Password</FormLabel>
+              <Input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+              />
+            </FormControl>
             <Button
               colorScheme="purple"
               size="lg"
@@ -85,14 +99,14 @@ export default function RegisterPage() {
           <Divider />
 
           <Text fontWeight="medium">Or register with</Text>
-          <Stack direction="row" spacing={4}>
-            <Button bg="white" boxShadow="md" w="full">
+          <Stack direction="row" spacing={4} w="full">
+            <Button bg="white" boxShadow="md" w="full" onClick={() => handleOAuth('google')}>
               <Image src="/google-icon.png" alt="Google" width={20} height={20} /> Google
             </Button>
-            <Button bg="white" boxShadow="md" w="full">
+            <Button bg="white" boxShadow="md" w="full" onClick={() => handleOAuth('facebook')}>
               <Image src="/facebook-icon.png" alt="Facebook" width={20} height={20} /> Facebook
             </Button>
-            <Button bg="white" boxShadow="md" w="full">
+            <Button bg="white" boxShadow="md" w="full" onClick={() => handleOAuth('apple')}>
               <Image src="/apple-icon.png" alt="Apple" width={20} height={20} /> Apple
             </Button>
           </Stack>
@@ -105,4 +119,6 @@ export default function RegisterPage() {
     </Box>
   );
 }
+
+
 
