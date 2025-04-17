@@ -1,23 +1,18 @@
 import NextAuth from "next-auth";
 import AzureADB2CProvider from "next-auth/providers/azure-ad-b2c";
-import type { NextAuthOptions } from "next-auth";
 
-const tenantName = "vitalpathb2c"; // CHANGE if your tenant name differs
-const userFlow = "B2C_1_signup_signin"; // MATCH your Azure B2C user flow name exactly
-
-export const authOptions: NextAuthOptions = {
+const handler = NextAuth({
   providers: [
     AzureADB2CProvider({
       clientId: process.env.AZURE_AD_B2C_CLIENT_ID!,
       clientSecret: process.env.AZURE_AD_B2C_CLIENT_SECRET!,
-      tenantId: `${tenantName}.onmicrosoft.com`,
-      primaryUserFlow: userFlow,
+      tenantId: process.env.AZURE_AD_B2C_TENANT_ID!,
+      primaryUserFlow: "B2C_1_signup_signin",
       authorization: {
         params: {
-          scope: "openid profile email offline_access",
+          scope: "openid profile offline_access",
         },
       },
-      issuer: `https://${tenantName}.b2clogin.com/${tenantName}.onmicrosoft.com/${userFlow}/v2.0/`,
     }),
   ],
   callbacks: {
@@ -31,8 +26,8 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-};
+});
 
-const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
 
