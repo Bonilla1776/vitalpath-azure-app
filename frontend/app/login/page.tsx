@@ -13,11 +13,20 @@ import {
   Text,
   useColorModeValue,
 } from '@chakra-ui/react';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 
 export default function LoginPage() {
   const bg = useColorModeValue('gray.50', 'gray.900');
   const cardBg = useColorModeValue('white', 'gray.800');
   const textColor = useColorModeValue('gray.700', 'gray.200');
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    await signIn('azure-ad-b2c', { callbackUrl: '/' });
+  };
 
   return (
     <Flex
@@ -43,12 +52,24 @@ export default function LoginPage() {
 
           <FormControl id="email" isRequired>
             <FormLabel color={textColor}>Email</FormLabel>
-            <Input type="email" placeholder="you@example.com" focusBorderColor="purple.400" />
+            <Input
+              type="email"
+              placeholder="you@example.com"
+              focusBorderColor="purple.400"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
           </FormControl>
 
           <FormControl id="password" isRequired>
             <FormLabel color={textColor}>Password</FormLabel>
-            <Input type="password" placeholder="••••••••" focusBorderColor="purple.400" />
+            <Input
+              type="password"
+              placeholder="••••••••"
+              focusBorderColor="purple.400"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </FormControl>
 
           <Button
@@ -57,6 +78,7 @@ export default function LoginPage() {
             mt={4}
             w="100%"
             _hover={{ transform: 'scale(1.02)', boxShadow: 'md' }}
+            onClick={handleLogin}
           >
             Log In
           </Button>

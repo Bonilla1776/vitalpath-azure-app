@@ -1,10 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   trailingSlash: true,
+  // ⚠️ REMOVE output: 'export'
 };
 
 module.exports = nextConfig;
+
 
 
 

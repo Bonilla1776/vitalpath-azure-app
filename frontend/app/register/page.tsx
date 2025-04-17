@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { signIn } from 'next-auth/react';
 import {
   Box,
   Button,
@@ -20,7 +20,6 @@ const MotionHeading = motion(Heading);
 const MotionText = motion(Text);
 
 export default function RegisterPage() {
-  const [formData, setFormData] = useState({ email: '', password: '' });
   const cardBg = useColorModeValue('rgba(255,255,255,0.6)', 'rgba(26,32,44,0.6)');
   const headingColor = useColorModeValue('purple.700', 'purple.300');
 
@@ -54,18 +53,12 @@ export default function RegisterPage() {
           </MotionText>
 
           <Stack spacing={4} w="full">
-            <Input
-              placeholder="Email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            />
-            <Input
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-            />
-            <Button colorScheme="purple" size="lg" w="full">
+            <Button
+              colorScheme="purple"
+              size="lg"
+              w="full"
+              onClick={() => signIn('azure-ad-b2c')}
+            >
               Register
             </Button>
           </Stack>
