@@ -1,6 +1,5 @@
 'use client';
 
-import Image from 'next/image';
 import NextLink from 'next/link';
 import {
   Box,
@@ -60,8 +59,8 @@ export default function Home() {
       >
         <Box bg={cardBg} borderRadius="lg" p={6} boxShadow="lg">
           <Flex gap={6} wrap="wrap" justify="center">
-            <Image src="/ualr-logo.png" alt="UA Little Rock Logo" width={100} height={100} />
-            <Image src="/vitalpath-logo.png" alt="VitalPath Logo" width={100} height={100} />
+            <img src="/ualr-logo.png" alt="UA Little Rock Logo" width={100} height={100} />
+            <img src="/vitalpath-logo.png" alt="VitalPath Logo" width={100} height={100} />
           </Flex>
           <MotionHeading
             size="3xl"
