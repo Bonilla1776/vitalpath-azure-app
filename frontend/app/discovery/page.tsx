@@ -1,7 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { isValidMotionProp, motion } from "framer-motion";
 import { chakra, shouldForwardProp } from "@chakra-ui/system";
 import {
@@ -40,7 +40,11 @@ const goalsList = [
 export default function DiscoveryPage() {
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: "",
+    preferredName: "",
+    phone: "",
+    raceEthnicity: "",
+    education: "",
+    employment: "",
     age: 30,
     gender: "",
     heightFeet: "5",
@@ -64,6 +68,13 @@ export default function DiscoveryPage() {
     },
   });
 
+  useEffect(() => {
+    const hasCompletedDiscovery = localStorage.getItem("discoveryComplete");
+    if (hasCompletedDiscovery) {
+      router.push("/dashboard");
+    }
+  }, []);
+
   const handleSliderChange = (key: string, value: number) => {
     setFormData((prev) => ({
       ...prev,
@@ -73,6 +84,7 @@ export default function DiscoveryPage() {
 
   const handleSubmit = () => {
     console.log("Form data submitted", formData);
+    localStorage.setItem("discoveryComplete", "true");
     router.push("/dashboard");
   };
 
@@ -97,56 +109,73 @@ export default function DiscoveryPage() {
       </Text>
 
       <VStack spacing={6} align="stretch">
-        {/* Basic Info */}
-        <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-          <Input
-            placeholder="First Name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-          />
-          <Box>
-            <Text fontSize="sm">Age: {formData.age}</Text>
-            <Slider min={18} max={100} value={formData.age} onChange={(val) => setFormData({ ...formData, age: val })}>
-              <SliderTrack><SliderFilledTrack /></SliderTrack>
-              <SliderThumb />
-            </Slider>
-          </Box>
-        </Stack>
+        <Input placeholder="Preferred Name" value={formData.preferredName} onChange={(e) => setFormData({ ...formData, preferredName: e.target.value })} />
+        <Input placeholder="Phone Number" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} />
+        <Select value={formData.raceEthnicity} onChange={(e) => setFormData({ ...formData, raceEthnicity: e.target.value })}>
+          <option value="">Race/Ethnicity</option>
+          <option>White</option>
+          <option>Black or African American</option>
+          <option>Asian</option>
+          <option>Hispanic or Latino</option>
+          <option>Native American</option>
+          <option>Pacific Islander</option>
+          <option>Other</option>
+          <option>Prefer not to say</option>
+        </Select>
+        <Select value={formData.education} onChange={(e) => setFormData({ ...formData, education: e.target.value })}>
+          <option value="">Education Level</option>
+          <option>Some High School</option>
+          <option>High School Graduate</option>
+          <option>Some College</option>
+          <option>Associate Degree</option>
+          <option>Bachelor's Degree</option>
+          <option>Graduate or Professional Degree</option>
+          <option>Prefer not to say</option>
+        </Select>
+        <Select value={formData.employment} onChange={(e) => setFormData({ ...formData, employment: e.target.value })}>
+          <option value="">Employment Status</option>
+          <option>Employed full-time</option>
+          <option>Employed part-time</option>
+          <option>Self-employed</option>
+          <option>Unemployed</option>
+          <option>Student</option>
+          <option>Retired</option>
+          <option>Prefer not to say</option>
+        </Select>
 
-        <Stack direction={{ base: "column", md: "row" }} spacing={4}>
-          <Select value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
-            <option value="">Gender</option>
-            <option>Male</option>
-            <option>Female</option>
-            <option>Non-binary</option>
-            <option>Prefer not to say</option>
+        <Text fontSize="sm">Age: {formData.age}</Text>
+        <Slider min={18} max={100} value={formData.age} onChange={(val) => setFormData({ ...formData, age: val })}>
+          <SliderTrack><SliderFilledTrack /></SliderTrack>
+          <SliderThumb />
+        </Slider>
+
+        <Select value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
+          <option value="">Gender</option>
+          <option>Male</option>
+          <option>Female</option>
+          <option>Non-binary</option>
+          <option>Prefer not to say</option>
+        </Select>
+
+        <Stack direction="row" spacing={2}>
+          <Select value={formData.heightFeet} onChange={(e) => setFormData({ ...formData, heightFeet: e.target.value })}>
+            {Array.from({ length: 4 }, (_, i) => i + 4).map((ft) => <option key={ft}>{ft}</option>)}
           </Select>
-          <Stack direction="row" spacing={2}>
-            <Select value={formData.heightFeet} onChange={(e) => setFormData({ ...formData, heightFeet: e.target.value })}>
-              {Array.from({ length: 4 }, (_, i) => i + 4).map((ft) => (
-                <option key={ft}>{ft}</option>
-              ))}
-            </Select>
-            <Select value={formData.heightInches} onChange={(e) => setFormData({ ...formData, heightInches: e.target.value })}>
-              {Array.from({ length: 12 }, (_, i) => i).map((inch) => (
-                <option key={inch}>{inch}</option>
-              ))}
-            </Select>
-          </Stack>
+          <Select value={formData.heightInches} onChange={(e) => setFormData({ ...formData, heightInches: e.target.value })}>
+            {Array.from({ length: 12 }, (_, i) => <option key={i}>{i}</option>)}
+          </Select>
         </Stack>
 
-        <Box>
-          <Text fontSize="sm">Weight (lbs): {formData.weight}</Text>
-          <Slider min={70} max={325} value={formData.weight} onChange={(val) => setFormData({ ...formData, weight: val })}>
-            <SliderTrack><SliderFilledTrack /></SliderTrack>
-            <SliderThumb />
-          </Slider>
-        </Box>
+        <Text fontSize="sm">Weight (lbs): {formData.weight}</Text>
+        <Slider min={70} max={325} value={formData.weight} onChange={(val) => setFormData({ ...formData, weight: val })}>
+          <SliderTrack><SliderFilledTrack /></SliderTrack>
+          <SliderThumb />
+        </Slider>
 
         <Input placeholder="Zip Code or City" value={formData.location} onChange={(e) => setFormData({ ...formData, location: e.target.value })} />
 
         <Select value={formData.maritalStatus} onChange={(e) => setFormData({ ...formData, maritalStatus: e.target.value })}>
-          <option value="">Marital Status (optional)</option>
+          <option value="">Marital Status</option>
           <option>Single</option>
           <option>Married</option>
           <option>Divorced</option>
@@ -156,59 +185,44 @@ export default function DiscoveryPage() {
           <option>Prefer not to say</option>
         </Select>
 
-        {/* Health Goals */}
-        <Box>
-          <Heading as="h2" size="md" mb={2}>Top 3 Health Goals</Heading>
-          {formData.goals.map((goal, idx) => (
-            <Select key={idx} value={goal} onChange={(e) => {
-              const newGoals = [...formData.goals];
-              newGoals[idx] = e.target.value;
-              setFormData({ ...formData, goals: newGoals });
-            }} mb={2}>
-              <option value="">Select goal #{idx + 1}</option>
-              {goalsList.map((g) => (
-                <option key={g}>{g}</option>
-              ))}
-              <option value="Other">Other</option>
-            </Select>
-          ))}
-          {formData.goals.includes("Other") && (
-            <Input
-              placeholder="Other goal"
-              value={formData.otherGoal}
-              onChange={(e) => setFormData({ ...formData, otherGoal: e.target.value })}
-            />
-          )}
-        </Box>
+        <Heading as="h2" size="md">Top 3 Health Goals</Heading>
+        {formData.goals.map((goal, idx) => (
+          <Select key={idx} value={goal} onChange={(e) => {
+            const newGoals = [...formData.goals];
+            newGoals[idx] = e.target.value;
+            setFormData({ ...formData, goals: newGoals });
+          }}>
+            <option value="">Select goal #{idx + 1}</option>
+            {goalsList.map((g) => <option key={g}>{g}</option>)}
+            <option value="Other">Other</option>
+          </Select>
+        ))}
+        {formData.goals.includes("Other") && (
+          <Input placeholder="Other goal" value={formData.otherGoal} onChange={(e) => setFormData({ ...formData, otherGoal: e.target.value })} />
+        )}
 
-        {/* Wellness Sliders */}
-        <Box>
-          <Heading as="h2" size="md" mb={2}>Self-Assessment (0–100)</Heading>
-          <VStack spacing={4} align="stretch">
-            {Object.entries(formData.wellness).map(([key, val]) => (
-              <Box key={key}>
-                <Text fontSize="sm" mb={1} textTransform="capitalize">
-                  {key.replace(/([a-z])([A-Z])/g, "$1 $2")} ({val})
-                </Text>
-                <Slider min={0} max={100} value={val} onChange={(val) => handleSliderChange(key, val)}>
-                  <SliderTrack><SliderFilledTrack /></SliderTrack>
-                  <SliderThumb />
-                </Slider>
-              </Box>
-            ))}
-          </VStack>
-        </Box>
+        <Heading as="h2" size="md">Self-Assessment (0–100)</Heading>
+        {Object.entries(formData.wellness).map(([key, val]) => (
+          <Box key={key}>
+            <Text fontSize="sm" mb={1} textTransform="capitalize">
+              {key.replace(/([a-z])([A-Z])/g, "$1 $2")} ({val})
+            </Text>
+            <Slider min={0} max={100} value={val} onChange={(val) => handleSliderChange(key, val)}>
+              <SliderTrack><SliderFilledTrack /></SliderTrack>
+              <SliderThumb />
+            </Slider>
+          </Box>
+        ))}
 
-        <Button
-          mt={6}
-          colorScheme="blue"
-          size="lg"
-          w="full"
-          onClick={handleSubmit}
-        >
+        <Button mt={6} colorScheme="blue" size="lg" w="full" onClick={handleSubmit}>
           Submit & Continue →
         </Button>
       </VStack>
     </Box>
   );
 }
+
+
+
+
+
