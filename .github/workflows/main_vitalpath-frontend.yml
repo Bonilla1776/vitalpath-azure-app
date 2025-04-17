@@ -21,18 +21,11 @@ jobs:
 
       - name: Install dependencies
         working-directory: frontend
-        run: |
-          npm ci
+        run: npm ci
 
-      - name: Build and Export Next.js Static Site
+      - name: Build Next.js SSR app
         working-directory: frontend
-        run: |
-          npm run build
-
-      - name: Zip exported static site
-        run: |
-          cd frontend/out
-          zip -r ../../vitalpath-frontend.zip .
+        run: npm run build
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
@@ -40,7 +33,7 @@ jobs:
           app-name: 'vitalpath-frontend'
           slot-name: 'production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_VITALPATH_FRONTEND }}
-          package: vitalpath-frontend.zip
+          package: frontend
 
 
 

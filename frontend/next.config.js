@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   trailingSlash: true,
-  // ⚠️ REMOVE output: 'export'
+  reactStrictMode: true,
 };
 
 module.exports = nextConfig;
